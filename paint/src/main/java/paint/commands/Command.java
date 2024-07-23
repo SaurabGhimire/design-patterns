@@ -1,7 +1,6 @@
-package commands;
+package paint.commands;
 
 public interface Command {
     void execute();
 
-    void unexecute();
 }
