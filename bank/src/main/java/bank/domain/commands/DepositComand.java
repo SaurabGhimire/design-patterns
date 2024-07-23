@@ -1,4 +1,4 @@
-package bank.commands;
+package bank.domain.commands;
 
 import bank.domain.Account;
 

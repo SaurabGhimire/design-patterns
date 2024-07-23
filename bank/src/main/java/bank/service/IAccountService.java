@@ -1,10 +1,7 @@
 package bank.service;
 
 import java.util.Collection;
-import java.util.List;
 
-import bank.commands.Command;
-import bank.commands.HistoryList;
 import bank.domain.Account;
 
 public interface IAccountService {

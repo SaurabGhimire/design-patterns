@@ -1,14 +1,13 @@
 package bank.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import bank.commands.*;
 import bank.dao.AccountDAO;
 import bank.dao.IAccountDAO;
 import bank.domain.Account;
 import bank.domain.Customer;
+import bank.domain.commands.*;
 
 
 public class AccountService implements IAccountService {
