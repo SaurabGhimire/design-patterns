@@ -6,21 +6,22 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-@Entity
+
 @Data
+@Entity
 @AllArgsConstructor
-public class Customer {
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    public Customer(String name, Long phone, String email) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
+    public Address(String street, String city, String zip) {
+        this.street = street;
+        this.city = city;
+        this.zip = zip;
     }
 
-    String name;
-    Long phone;
-    String email;
+    String street;
+    String city;
+    String zip;
 }

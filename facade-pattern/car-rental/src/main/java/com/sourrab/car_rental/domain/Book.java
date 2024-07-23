@@ -1,26 +1,26 @@
 package com.sourrab.car_rental.domain;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-@Entity
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 @Data
-@AllArgsConstructor
-public class Customer {
+@Entity
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    String title;
+    String author;
 
-    public Customer(String name, Long phone, String email) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
     }
-
-    String name;
-    Long phone;
-    String email;
 }
