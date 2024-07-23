@@ -1,7 +1,10 @@
 package bank.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import bank.commands.*;
 import bank.dao.AccountDAO;
 import bank.dao.IAccountDAO;
 import bank.domain.Account;
@@ -11,9 +14,12 @@ import bank.domain.Customer;
 public class AccountService implements IAccountService {
 	private IAccountDAO accountDAO;
 
+	HistoryList commandsHistory;
+
 	
 	public AccountService(){
 		accountDAO=new AccountDAO();
+		this.commandsHistory = new HistoryList();
 	}
 
 	public Account createAccount(long accountNumber, String customerName) {
@@ -26,7 +32,10 @@ public class AccountService implements IAccountService {
 
 	public void deposit(long accountNumber, double amount) {
 		Account account = accountDAO.loadAccount(accountNumber);
-		account.deposit(amount);
+		Command command = new DepositComand(account, amount);
+		command.execute();
+		commandsHistory.add(command);
+//		account.deposit(amount);
 		accountDAO.updateAccount(account);
 	}
 
@@ -41,7 +50,10 @@ public class AccountService implements IAccountService {
 
 	public void withdraw(long accountNumber, double amount) {
 		Account account = accountDAO.loadAccount(accountNumber);
-		account.withdraw(amount);
+		Command command = new WithdrawCommand(account, amount);
+		command.execute();
+		commandsHistory.add(command);
+//		account.withdraw(amount);
 		accountDAO.updateAccount(account);
 	}
 
@@ -50,8 +62,20 @@ public class AccountService implements IAccountService {
 	public void transferFunds(long fromAccountNumber, long toAccountNumber, double amount, String description) {
 		Account fromAccount = accountDAO.loadAccount(fromAccountNumber);
 		Account toAccount = accountDAO.loadAccount(toAccountNumber);
-		fromAccount.transferFunds(toAccount, amount, description);
+
+		Command command = new TransferCommand(fromAccount, toAccount, amount, description);
+		command.execute();
+
+//		fromAccount.transferFunds(toAccount, amount, description);
 		accountDAO.updateAccount(fromAccount);
 		accountDAO.updateAccount(toAccount);
+	}
+
+	public void undo(){
+		commandsHistory.undo();
+	}
+
+	public void redo(){
+		commandsHistory.redo();
 	}
 }

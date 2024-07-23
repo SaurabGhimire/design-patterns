@@ -43,6 +43,31 @@ public class Application {
 			System.out.printf("%30s%30s%20.2f\n\n", "", "Current Balance:",
 					account.getBalance());
 		}
+
+		accountService.undo();
+		printAccounts(accountlist);
+		System.out.println("####################");
+		accountService.redo();
+		printAccounts(accountlist);
+	}
+	
+	public static void printAccounts(Collection<Account> accountlist){
+		for (Account account : accountlist) {
+			Customer customer = account.getCustomer();
+			System.out.println("Statement for Account: " + account.getAccountnumber());
+			System.out.println("Account Holder: " + customer.getName());
+			System.out.println("-Date-------------------------"
+					+ "-Description------------------"
+					+ "-Amount-------------");
+			for (AccountEntry entry : account.getEntryList()) {
+				System.out.printf("%30s%30s%20.2f\n", entry.getDate()
+						.toString(), entry.getDescription(), entry.getAmount());
+			}
+			System.out.println("----------------------------------------"
+					+ "----------------------------------------");
+			System.out.printf("%30s%30s%20.2f\n\n", "", "Current Balance:",
+					account.getBalance());
+		}
 	}
 
 }
