@@ -50,7 +50,7 @@ public class Application {
 		accountService.redo();
 		printAccounts(accountlist);
 	}
-	
+
 	public static void printAccounts(Collection<Account> accountlist){
 		for (Account account : accountlist) {
 			Customer customer = account.getCustomer();
