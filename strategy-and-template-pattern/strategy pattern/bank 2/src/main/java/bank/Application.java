@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import bank.domain.Account;
 import bank.domain.AccountEntry;
+import bank.domain.AccountTypeEnum;
 import bank.domain.Customer;
 import bank.service.AccountService;
 import bank.service.IAccountService;
@@ -14,8 +15,8 @@ public class Application {
 	public static void main(String[] args) {
 		IAccountService accountService = new AccountService();
 		// create 2 accounts;
-		accountService.createAccount(1263862, "Frank Brown");
-		accountService.createAccount(4253892, "John Doe");
+		accountService.createAccount(1263862, "Frank Brown", AccountTypeEnum.savings);
+		accountService.createAccount(4253892, "John Doe", AccountTypeEnum.checkings);
 		//use account 1;
 		accountService.deposit(1263862, 240);
 		accountService.deposit(1263862, 529);
@@ -25,6 +26,7 @@ public class Application {
 		accountService.transferFunds(4253892, 1263862, 100, "payment of invoice 10232");
 		// show balances
 		
+		accountService.addInterest();
 		Collection<Account> accountlist = accountService.getAllAccounts();
 		Customer customer = null;
 		for (Account account : accountlist) {

@@ -4,8 +4,7 @@ import java.util.Collection;
 
 import bank.dao.AccountDAO;
 import bank.dao.IAccountDAO;
-import bank.domain.Account;
-import bank.domain.Customer;
+import bank.domain.*;
 
 
 public class AccountService implements IAccountService {
@@ -16,8 +15,8 @@ public class AccountService implements IAccountService {
 		accountDAO=new AccountDAO();
 	}
 
-	public Account createAccount(long accountNumber, String customerName) {
-		Account account = new Account(accountNumber);
+	public Account createAccount(long accountNumber, String customerName, AccountTypeEnum accountType) {
+		Account account = new Account(accountNumber, accountType);
 		Customer customer = new Customer(customerName);
 		account.setCustomer(customer);
 		accountDAO.saveAccount(account);
@@ -53,5 +52,23 @@ public class AccountService implements IAccountService {
 		fromAccount.transferFunds(toAccount, amount, description);
 		accountDAO.updateAccount(fromAccount);
 		accountDAO.updateAccount(toAccount);
+	}
+
+	@Override
+	public void addInterest() {
+		Collection<Account> accounts = getAllAccounts();
+		for(Account account: accounts){
+			if(account.getAccountType() == AccountTypeEnum.savings){
+				InterestCalculator savingsInterestCalculator = new SavingsInterestCalculator();
+				account.setInterestCalculator(savingsInterestCalculator);
+				double interest = account.calculate();
+				account.deposit(interest);
+			} else if(account.getAccountType() == AccountTypeEnum.checkings){
+				InterestCalculator checkingsInterestCalculator = new CheckingsInterestCalculator();
+				account.setInterestCalculator(checkingsInterestCalculator);
+				double interest = account.calculate();
+				account.deposit(interest);
+			}
+		}
 	}
 }

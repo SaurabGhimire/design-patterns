@@ -6,13 +6,16 @@ import java.util.*;
 public class Account {
 	long accountnumber;
 
-	AccountTypeEnum accountTypeEnum;
+	AccountTypeEnum accountType;
 	Collection<AccountEntry> entryList = new ArrayList<AccountEntry>();
 	Customer customer;
 
+	InterestCalculator interestCalculator;
+
 	
-	public Account (long accountnr){
+	public Account (long accountnr, AccountTypeEnum accountType){
 		this.accountnumber = accountnr;
+		this.accountType = accountType;
 	}
 	public long getAccountnumber() {
 		return accountnumber;
@@ -58,4 +61,15 @@ public class Account {
 		return entryList;
 	}
 
+	public void setInterestCalculator(InterestCalculator calculator){
+		this.interestCalculator = calculator;
+	}
+
+	public AccountTypeEnum getAccountType(){
+		return this.accountType;
+	}
+
+	public double calculate(){
+		return this.interestCalculator.calculate(getBalance());
+	}
 }
