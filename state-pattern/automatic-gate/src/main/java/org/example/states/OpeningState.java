@@ -8,8 +8,13 @@ public class OpeningState extends GateState {
     }
     @Override
     public void buttonPressed() {
-        gateController.getGate().open();
-        gateController.getBuzzer().stop();
-        GateState state = new OpeningThenStoppedState(gateController);
+        GateState state = new StopState(gateController, this    );
+        gateController.setGateState(state);
+    }
+
+    @Override
+    public void gateOpenSignal(){
+        GateState state = new OpenState(gateController);
+        gateController.setGateState(state);
     }
 }

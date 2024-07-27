@@ -9,9 +9,13 @@ public class ClosingState extends GateState {
     }
     @Override
     public void buttonPressed() {
-        gateController.getGate().open();
-        gateController.getBuzzer().stop();
-        GateState state = new ClosingThenStoppedState(gateController);
+        GateState state = new StopState(gateController, this);
+        gateController.setGateState(state);
+    }
+
+    @Override
+    public void gateCloseSignal(){
+        GateState state = new ClosedState(gateController);
         gateController.setGateState(state);
     }
 }

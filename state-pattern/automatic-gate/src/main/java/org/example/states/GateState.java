@@ -9,4 +9,8 @@ public abstract class GateState {
         this.gateController = gateController;
     }
     public abstract void buttonPressed();
+
+    public void gateOpenSignal(){}
+
+    public void gateCloseSignal(){}
 }
