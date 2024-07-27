@@ -16,7 +16,11 @@ public class Application {
 		customerCollection.add(new Customer("Frank","Cohen","fcohen@gmail.com","0643232178",53, new Address("Jeffersen Av 3","New York","54221")));
 		customerCollection.add(new Customer("Eric","Johnson","ejohnson@hotmail.com","0612342345",36, new Address("1000 S 4th street","San Fransisco","12544")));
 		
-		customerCollection.print();
+//		customerCollection.print();
+
+		customerCollection.getFilterIterator(customer -> customer.getAddress().getCity().equals("Chicago")).forEach(
+				System.out::println
+		);
 
 	}
 
