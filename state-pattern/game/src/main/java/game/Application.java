@@ -9,7 +9,5 @@ public class Application {
 		game.play();
 		game.play();
 		game.play();
-
 	}
-
 }
