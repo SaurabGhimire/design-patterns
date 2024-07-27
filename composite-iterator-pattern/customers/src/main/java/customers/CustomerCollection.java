@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CustomerCollection implements Iterator {
+public class CustomerCollection {
 	List<Customer> customers = new ArrayList<Customer>();
 	
 	public void add(Customer customer) {
@@ -12,18 +12,14 @@ public class CustomerCollection implements Iterator {
 	}
 	
 	public void print() {
-		for (Customer customer : customers) {
+		AgeIterator ageIterator = getAgeIterator();
+		while(ageIterator.hasNext()){
+			Customer customer = (Customer) ageIterator.next();
 			System.out.println(customer);
 		}
 	}
 
-	@Override
-	public boolean hasNext() {
-		return false;
-	}
-
-	@Override
-	public Customer next() {
-		return null;
+	public AgeIterator getAgeIterator() {
+		return new AgeIterator(customers);
 	}
 }
