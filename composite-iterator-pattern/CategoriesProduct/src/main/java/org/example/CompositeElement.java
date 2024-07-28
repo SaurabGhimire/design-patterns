@@ -1,5 +1,10 @@
 package org.example;
 
-public interface CompositeElement {
+public abstract class CompositeElement {
+    String name;
 
+    public CompositeElement(String name){
+        this.name = name;
+    }
+    abstract void print();
 }
