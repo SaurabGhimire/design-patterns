@@ -27,4 +27,8 @@ public class CustomerCollection {
 	public FilterIterator getFilterIterator(Predicate<Customer> predicate) {
 		return new FilterIterator(customers, predicate);
 	}
+
+	public SkipOneIterator getSkipOneIterator() {
+		return new SkipOneIterator(customers);
+	}
 }
