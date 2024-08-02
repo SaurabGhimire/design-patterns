@@ -3,6 +3,7 @@ package bank.service;
 import java.util.Collection;
 
 import bank.dao.AccountDAO;
+import bank.dao.AccountDAOFactory;
 import bank.dao.IAccountDAO;
 import bank.domain.Account;
 import bank.domain.Customer;
@@ -13,7 +14,7 @@ public class AccountService implements IAccountService {
 
 	
 	public AccountService(){
-		accountDAO=new AccountDAO();
+		accountDAO= AccountDAOFactory.getAcccountDAOInstance();
 	}
 
 	public Account createAccount(long accountNumber, String customerName) {
