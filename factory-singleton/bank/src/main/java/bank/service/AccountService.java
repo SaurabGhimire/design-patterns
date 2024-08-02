@@ -7,6 +7,7 @@ import bank.dao.AccountDAOFactory;
 import bank.dao.IAccountDAO;
 import bank.domain.Account;
 import bank.domain.Customer;
+import bank.integration.EmailSender;
 
 
 public class AccountService implements IAccountService {
@@ -22,6 +23,7 @@ public class AccountService implements IAccountService {
 		Customer customer = new Customer(customerName);
 		account.setCustomer(customer);
 		accountDAO.saveAccount(account);
+		EmailSender.getInstance().sendEmail(customerName , "Account CREATED!!!");
 		return account;
 	}
 
