@@ -1,4 +1,7 @@
 package org.example;
 
-public class HtmlElement {
+import java.util.List;
+
+public interface HtmlElement {
+    String getValue();
 }
