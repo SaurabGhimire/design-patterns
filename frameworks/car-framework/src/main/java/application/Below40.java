@@ -11,9 +11,9 @@ public class Below40 implements CarState {
 
     @Override
     public CarState updateState(int speed) {
-        if(speed>=40){
+        if(speed>=4){
             return new Between40And80();
         }
-        return null;
+        return this;
     }
 }

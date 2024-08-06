@@ -9,15 +9,19 @@ import java.awt.event.ActionListener;
 
 public class CarGUI extends framework.CarGUI {
     private final JButton jButtonJump = new JButton();
-    public CarGUI() {
+    CarController carController;
+
+    Car car;
+    public CarGUI(CarController carController) {
         // Pass custom CarController which extends Framework CarController
-        super(new CarController());
+        super(carController);
+        this.carController = carController;
         initCarGUI();
     }
 
     public static void main(String[] args) {
         // Initialize CarGUI which in turn will initialize the super class -> Framework GUI
-        CarGUI frame = new CarGUI();
+        CarGUI frame = new CarGUI(new CarController(new Car()));
         // Set screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameSize = frame.getSize();
@@ -34,7 +38,7 @@ public class CarGUI extends framework.CarGUI {
 
     public void initCarGUI(){
         // Set title of the frame
-        this.getFrame().setTitle("Porsche" + " \uD83C\uDFCE");
+        this.getFrame().setTitle("Application" + " \uD83C\uDFCE");
         // Extend the height of the GUI
         this.setSize(new Dimension(297, 279));
         // Add jump buttton
@@ -46,10 +50,14 @@ public class CarGUI extends framework.CarGUI {
             }
         });
         this.getContentPane().add(jButtonJump);
+        this.carController.addObserver(new DatabaseLogger());
+        // Remove File Logger
+        this.removeFileLogger();
+
     }
 
     private void jButtonJump_actionPerformed(ActionEvent e) {
-        Command command = new Jump(new CarController());
+        Command command = new Jump(this.carController);
         command.execute();
         commandHistory.add(command);
     }
