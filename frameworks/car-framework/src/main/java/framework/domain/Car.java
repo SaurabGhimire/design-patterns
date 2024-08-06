@@ -10,7 +10,6 @@ public class Car {
     public void changeSpeedBy(int speed){
         if(this.speed == 0 && speed<0) return;
         this.speed += speed;
-        System.out.println("Inside change car speed: "  + this.speed );
     }
 
     public int getSpeed() {

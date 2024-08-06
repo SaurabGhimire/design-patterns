@@ -5,10 +5,15 @@ import framework.states.Below70;
 import framework.states.CarState;
 
 public class CarController extends Subject {
-    Car car;
-    CarState carState;
+    private final Car car;
+    private final CarState carState;
+    public CarController(CarState carState, Car car){
+        this.car = car != null ? car : new Car();
+        this.carState = carState;
+    }
+
     public CarController(CarState carState){
-        this.car = new Car();
+        this.car =  new Car();
         this.carState = carState;
     }
 
@@ -29,5 +34,13 @@ public class CarController extends Subject {
         car.changeSpeedBy(additionalSpeed * -1);
         carState.updateState(car.getSpeed());
         doNotify(car);
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public CarState getCarState() {
+        return carState;
     }
 }

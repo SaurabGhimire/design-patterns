@@ -6,14 +6,12 @@ import framework.commands.Decrement;
 import framework.commands.Increment;
 import framework.domain.Car;
 import framework.domain.CarController;
+import framework.observers.CarObserver;
 import framework.observers.FileLogger;
 import framework.states.Below70;
 import framework.states.CarState;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
-import java.awt.Rectangle;
+import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,28 +19,29 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class CarGUI extends JFrame {
+public class CarGUI extends JFrame implements CarObserver {
     private JButton jButtonIncrement = new JButton();
     private JButton jButtondecrement = new JButton();
     private JButton jButtonundo = new JButton();
     private JButton jButtonredo = new JButton();
 
-    private CommandHistory commandHistory;
+    private javax.swing.JLabel JLabelCount = new javax.swing.JLabel();
 
-    private CarController carController;
+    protected CommandHistory commandHistory;
 
+    protected CarController carController;
 
-
-    public CarGUI(CarState carState) {
+    public CarGUI(CarController carController) {
         try {
             jbInit();
             commandHistory = new CommandHistory();
-            carController = new CarController(carState == null ? new Below70(): carState);
-            TextFrame textframe = new TextFrame();
+            this.carController = carController == null ? new CarController(new Below70()) : carController;
             FileLogger fileLogger = new FileLogger();
-            carController.addObserver(textframe);
-            carController.addObserver(fileLogger);
-            textframe.setVisible(true);
+            this.carController.addObserver(this);
+            this.carController.addObserver(fileLogger);
+
+            CarGUI.SymWindow aSymWindow = new CarGUI.SymWindow();
+            this.addWindowListener(aSymWindow);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,13 +59,17 @@ public class CarGUI extends JFrame {
         }
         frame.setLocation( ( screenSize.width - frameSize.width ) / 2, ( screenSize.height - frameSize.height ) / 2 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setTitle("Framework");
         frame.setVisible(true);
+    }
 
+    public CarGUI getFrame(){
+        return this;
     }
 
     private void jbInit() throws Exception {
         this.getContentPane().setLayout( null );
-        this.setSize(new Dimension(297, 169));
+        this.setSize(new Dimension(297, 229));
         jButtonIncrement.setText("+");
         jButtonIncrement.setBounds(new Rectangle(30, 25, 73, 22));
         jButtonIncrement.setActionCommand("increment");
@@ -85,23 +88,28 @@ public class CarGUI extends JFrame {
             }
         });
         jButtonundo.setText("undo");
-        jButtonundo.setBounds(new Rectangle(30, 80, 73, 22));
+        jButtonundo.setBounds(new Rectangle(30, 135, 73, 22));
         jButtonundo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jButtonundo_actionPerformed(e);
             }
         });
         jButtonredo.setText("redo");
-        jButtonredo.setBounds(new Rectangle(155, 80, 73, 22));
+        jButtonredo.setBounds(new Rectangle(155, 135, 73, 22));
         jButtonredo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 jButtonredo_actionPerformed(e);
             }
         });
+
+        JLabelCount.setFont(new Font("Dialog", Font.BOLD, 36));
+        JLabelCount.setBounds(120,48,170,86);
+        setCarSpeed(0);
         this.getContentPane().add(jButtonredo, null);
         this.getContentPane().add(jButtonundo, null);
         this.getContentPane().add(jButtondecrement, null);
         this.getContentPane().add(jButtonIncrement, null);
+        this.getContentPane().add(JLabelCount, null);
     }
 
     private void jButtonIncrement_actionPerformed(ActionEvent e) {
@@ -123,4 +131,29 @@ public class CarGUI extends JFrame {
     private void jButtonredo_actionPerformed(ActionEvent e) {
         commandHistory.redo();
     }
+
+    @Override
+    public void update(Car car) {
+        setCarSpeed(car.getSpeed());
+    }
+
+    public void setCarSpeed (int speed){
+        JLabelCount.setText(String.valueOf(speed));
+    }
+
+    class SymWindow extends java.awt.event.WindowAdapter
+    {
+        public void windowClosing(java.awt.event.WindowEvent event)
+        {
+            Object object = event.getSource();
+            if (object == CarGUI.this)
+                CarGUI_WindowClosing(event);
+        }
+    }
+
+    void CarGUI_WindowClosing(java.awt.event.WindowEvent event)
+    {
+        dispose();		 // dispose of the Frame.
+    }
+
 }
