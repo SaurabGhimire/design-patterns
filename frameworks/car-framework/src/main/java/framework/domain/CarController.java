@@ -5,7 +5,7 @@ import framework.states.Below70;
 import framework.states.CarState;
 
 public class CarController extends Subject {
-    private final Car car;
+    private  Car car;
     private final CarState carState;
     public CarController(CarState carState, Car car){
         this.car = car != null ? car : new Car();
@@ -43,4 +43,6 @@ public class CarController extends Subject {
     public CarState getCarState() {
         return carState;
     }
+
+    public void setCar(Car car){ this.car = car; }
 }
