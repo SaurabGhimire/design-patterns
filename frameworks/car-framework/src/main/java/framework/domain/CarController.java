@@ -17,7 +17,6 @@ public class CarController extends Subject {
         int additionalSpeed = carState.computeSpeed();
         car.changeSpeedBy(additionalSpeed);
         carState = carState.updateState(car.getSpeed());
-//        System.out.println("State is" + carState.getClass().getSimpleName());
         doNotify(car);
     }
 
@@ -25,7 +24,6 @@ public class CarController extends Subject {
         int additionalSpeed = carState.computeSpeed();
         car.changeSpeedBy(additionalSpeed * -1);
         carState = carState.updateState(car.getSpeed());
-//        System.out.println("State is" + carState.getClass().getSimpleName());
         doNotify(car);
     }
 
