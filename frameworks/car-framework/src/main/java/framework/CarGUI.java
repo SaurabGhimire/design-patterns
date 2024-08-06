@@ -31,12 +31,16 @@ public class CarGUI extends JFrame implements CarObserver {
 
     protected CarController carController;
 
+    Car car;
+
+    FileLogger fileLogger;
+
     public CarGUI(CarController carController) {
         try {
             jbInit();
             commandHistory = new CommandHistory();
-            this.carController = carController == null ? new CarController(new Below70()) : carController;
-            FileLogger fileLogger = new FileLogger();
+            this.carController = carController == null ? new CarController(new Below70(), car) : carController;
+            fileLogger = new FileLogger();
             this.carController.addObserver(this);
             this.carController.addObserver(fileLogger);
 
@@ -45,6 +49,10 @@ public class CarGUI extends JFrame implements CarObserver {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void removeFileLogger(){
+        this.carController.removeObserver(fileLogger);
     }
 
     public static void main(String[] args) {

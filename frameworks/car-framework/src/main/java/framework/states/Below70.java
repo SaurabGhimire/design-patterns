@@ -1,5 +1,7 @@
 package framework.states;
 
+import application.CarController;
+
 public class Below70 implements CarState{
     @Override
     public int computeSpeed() {
@@ -7,7 +9,7 @@ public class Below70 implements CarState{
     }
 
     public CarState updateState(int speed){
-        if(speed >= 70){
+        if(speed > 4){
             return new Above70();
         }
         return this;
