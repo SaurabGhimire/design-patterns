@@ -10,9 +10,9 @@ public class Between40And80 implements CarState {
 
     @Override
     public CarState updateState(int speed) {
-        if(speed<4){
+        if(speed<40){
             return new Below40();
-        } else if(speed>8){
+        } else if(speed>80){
             return new Above80();
         }
         return this;

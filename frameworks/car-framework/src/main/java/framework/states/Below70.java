@@ -9,7 +9,7 @@ public class Below70 implements CarState{
     }
 
     public CarState updateState(int speed){
-        if(speed > 4){
+        if(speed > 70){
             return new Above70();
         }
         return this;
